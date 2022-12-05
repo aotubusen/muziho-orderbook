@@ -137,6 +137,36 @@ class OrderBookTest{
 
 
     @Test
+    fun testGetTotalSize() {
+
+        val orderBook = OrderBook()
+        orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
+        orderBook.addOrder(Order(3,101.00, OrderSide.O,4))
+        orderBook.addOrder(Order(4,102.00, OrderSide.O,6))
+        orderBook.addOrder(Order(2,100.00, OrderSide.O,3))
+        orderBook.addOrder(Order(5, 99.00, OrderSide.B,3))
+        orderBook.addOrder(Order(7, 98.00, OrderSide.B,2))
+        orderBook.addOrder(Order(6, 98.00, OrderSide.B,4))
+        orderBook.addOrder(Order(8, 97.00, OrderSide.B,5))
+
+        var size = orderBook.getTotalSize(OrderSide.O, 1)
+        assertEquals(5, size)
+        size = orderBook.getTotalSize(OrderSide.O, 2)
+        assertEquals(4, size)
+        size = orderBook.getTotalSize(OrderSide.O, 3)
+        assertEquals(6, size)
+
+        size = orderBook.getTotalSize(OrderSide.B, 1)
+        assertEquals(3, size)
+        size = orderBook.getTotalSize(OrderSide.B, 2)
+        assertEquals(6, size)
+        size = orderBook.getTotalSize(OrderSide.B, 3)
+        assertEquals(5, size)
+        size = orderBook.getTotalSize(OrderSide.B, 6)
+        assertEquals(0, size)
+    }
+
+    @Test
     fun testGetOrders() {
         val orderBook = OrderBook()
         assertEquals(0,orderBook.getOrders(OrderSide.O).size)

@@ -81,6 +81,14 @@ class OrderBook {
 
     fun getTotalSize(side: OrderSide, level:Int) : Long{
         if(level<=0) return 0
-        return 0
+        return when(side){
+            OrderSide.O -> getTotalSize(offers, offers.keys.sorted(), level)
+            OrderSide.B -> getTotalSize(bids, bids.keys.sortedDescending(), level)
+        }
+    }
+
+    private fun getTotalSize(orders: ConcurrentMap<Double, MutableMap<Long, Order>>, prices: List<Double>, level: Int): Long {
+        var price = getPrice(prices, level)
+        return orders[price]?.values?.sumOf { it -> it.size }?:0
     }
 }
