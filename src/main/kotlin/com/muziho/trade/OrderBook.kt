@@ -9,7 +9,14 @@ class OrderBook {
     private val bids: ConcurrentMap<Double, MutableMap<Long, Order>> = ConcurrentHashMap()
 
     fun addOrder(order:Order): Order?{
-        return null
+        val orders = when(order.side){
+            OrderSide.O -> offers
+            OrderSide.B -> bids
+        }
+
+        val orderSet = orders.getOrPut(order.price) { mutableMapOf() }
+        orderSet?.getOrPut(order.id){order}
+        return order
     }
 
     fun removeOrder(orderId:Long){
@@ -21,7 +28,11 @@ class OrderBook {
 
 
     fun getOrders(side: OrderSide) : List<Order> {
-        return listOf()
+        val orders = when(side){
+            OrderSide.O -> offers
+            OrderSide.B -> bids
+        }
+        return orders.values.flatMap { it.values}
     }
 
 
