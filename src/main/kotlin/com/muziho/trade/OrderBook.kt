@@ -64,7 +64,7 @@ class OrderBook {
             OrderSide.O -> offers
             OrderSide.B -> bids
         }
-        return orders.values.flatMap { it.values}
+        return orders.values.flatMap { it.values.sortedBy { i-> i.created } }
     }
 
     fun getPrice(side: OrderSide, level:Int): Double{

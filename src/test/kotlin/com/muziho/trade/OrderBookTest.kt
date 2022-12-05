@@ -187,6 +187,39 @@ class OrderBookTest{
         assertEquals(4,orderBook.getOrders(OrderSide.B).size)
     }
 
+    @Test
+    fun testGetOrdersInTheRightCreatedOrder() {
+        val orderBook = OrderBook()
+        assertEquals(0,orderBook.getOrders(OrderSide.O).size)
+        assertEquals(0,orderBook.getOrders(OrderSide.B).size)
+
+        // add micro delay between adding order
+        val offerOrder1 = orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
+        Thread.sleep(1L)
+        val offerOrder2 = orderBook.addOrder(Order(4,102.00, OrderSide.O,6))
+        Thread.sleep(1L)
+        val offerOrder3 = orderBook.addOrder(Order(2,100.00, OrderSide.O,3))
+
+        val offers = orderBook.getOrders(OrderSide.O)
+        assertEquals(3,offers.size)
+        assertEquals(offerOrder1, offers[0])
+        assertEquals(offerOrder3, offers[1])
+        assertEquals(offerOrder2, offers[2])
+
+
+        val bidOrder1 = orderBook.addOrder(Order(5, 99.00, OrderSide.B,3))
+        Thread.sleep(1L)
+        val bidOrder2 = orderBook.addOrder(Order(7, 98.00, OrderSide.B,2))
+        Thread.sleep(1L)
+        val bidOrder3 = orderBook.addOrder(Order(6, 99.00, OrderSide.B,4))
+
+        val bids = orderBook.getOrders(OrderSide.B)
+        assertEquals(3,bids.size)
+        assertEquals(bidOrder1, bids[0])
+        assertEquals(bidOrder3, bids[1])
+        assertEquals(bidOrder2, bids[2])
+    }
+
     private fun buildOrders(orderBook :OrderBook){
         orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
         orderBook.addOrder(Order(3,101.00, OrderSide.O,4))
