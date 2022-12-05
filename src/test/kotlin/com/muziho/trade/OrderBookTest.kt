@@ -33,4 +33,21 @@ class OrderBookTest{
         }
         assertEquals("Duplicate ID ${1}",exception.message)
     }
+
+
+
+    @Test
+    fun testGetOrders() {
+        val orderBook = OrderBook()
+        assertEquals(0,orderBook.getOrders(OrderSide.O).size)
+        assertEquals(0,orderBook.getOrders(OrderSide.B).size)
+        orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
+        orderBook.addOrder(Order(4,102.00, OrderSide.O,6))
+        orderBook.addOrder(Order(2,100.00, OrderSide.O,3))
+        orderBook.addOrder(Order(5, 99.00, OrderSide.B,3))
+        orderBook.addOrder(Order(7, 98.00, OrderSide.B,2))
+        orderBook.addOrder(Order(6, 98.00, OrderSide.B,4))
+        assertEquals(3,orderBook.getOrders(OrderSide.O).size)
+        assertEquals(3,orderBook.getOrders(OrderSide.B).size)
+    }
 }
