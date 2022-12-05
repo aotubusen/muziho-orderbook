@@ -72,6 +72,41 @@ class OrderBookTest{
         assertEquals(1,orderBook.getOrders(OrderSide.B).size)
     }
 
+    @Test
+    fun testModifyOfferOrder() {
+        val orderBook = OrderBook()
+        val orderOffer1 = orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
+        var orders = orderBook.getOrders(OrderSide.O)
+        val order = orders.find { it.id == 1L}
+        assertEquals(orderOffer1, order)
+        assertEquals(2L, order?.size)
+
+        orderBook.modifyOrder(1, 5L)
+
+        orders = orderBook.getOrders(OrderSide.O)
+        val orderModified = orders.find { it.id == 1L}
+        assertNotEquals(orderOffer1, orderModified)
+        assertEquals(5L, orderModified?.size)
+    }
+
+    @Test
+    fun testModifyBidOrder() {
+        val orderBook = OrderBook()
+        val orderBid1 = orderBook.addOrder(Order(1, 99.00, OrderSide.B,3))
+        var orders = orderBook.getOrders(OrderSide.B)
+        val order = orders.find { it.id == 1L}
+        assertEquals(orderBid1, order)
+        assertEquals(3L, order?.size)
+
+        val modifiedOrderBid1 = orderBook.modifyOrder(1, 5L)
+
+        orders = orderBook.getOrders(OrderSide.B)
+        val orderModified = orders.find { it.id == 1L}
+        assertNotEquals(orderBid1, orderModified)
+        assertEquals(5L, orderModified?.size)
+        assertEquals(orderBid1?.created, orderModified?.created)
+    }
+
 
 
     @Test

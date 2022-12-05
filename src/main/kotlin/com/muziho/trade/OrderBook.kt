@@ -40,9 +40,24 @@ class OrderBook {
     }
 
     fun modifyOrder(orderId:Long, size:Long):Order?{
+        val offerPool = getOrders(OrderSide.O)
+        val bidPool = getOrders(OrderSide.B)
+
+        offerPool.find {it->  it.id == orderId }?.let {
+            return modifyOrder(it,size,offers)
+        }
+        bidPool.find {it->  it.id == orderId }?.let {
+            return modifyOrder(it,size,bids)
+        }
         return null
     }
 
+    private fun modifyOrder(order:Order, size:Long, orders:ConcurrentMap<Double, MutableMap<Long, Order>>):Order?{
+        val updatedOrder = order.copy(size = size)
+        orders[order.price]?.remove(order.id)
+        orders[order.price]?.put(order.id, updatedOrder)
+        return updatedOrder
+    }
 
     fun getOrders(side: OrderSide) : List<Order> {
         val orders = when(side){
