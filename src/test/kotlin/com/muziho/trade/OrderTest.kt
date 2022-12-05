@@ -20,4 +20,20 @@ class OrderTest{
         assertEquals('B', order2.side)
         assertEquals(2, order2.size)
     }
+
+
+    @Test
+    fun testCopyOrderAndUpdate(){
+        val order = Order(1, 100.00, 'O', 2)
+        val order2 = order.copy(size = 6)
+        assertNotEquals(order, order2)
+        assertEquals(order.created, order2.created)
+        assertEquals(6, order2.size)
+
+        val orderB = Order(2, 100.00, 'B', 2)
+        val orderB2 = orderB.copy(size = 3)
+        assertNotEquals(orderB, orderB2)
+        assertEquals(orderB.created, orderB2.created)
+        assertEquals(3, orderB2.size)
+    }
 }
