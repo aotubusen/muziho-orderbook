@@ -9,6 +9,13 @@ class OrderBook {
     private val bids: ConcurrentMap<Double, MutableMap<Long, Order>> = ConcurrentHashMap()
 
     fun addOrder(order:Order): Order?{
+
+        val offerPool = getOrders(OrderSide.O)
+        val bidPool = getOrders(OrderSide.B)
+
+        if(offerPool.find {it->  it.id == order.id }!=null || bidPool.find {it->  it.id == order.id }!=null )
+            throw Exception("Duplicate ID ${order.id}")
+        
         val orders = when(order.side){
             OrderSide.O -> offers
             OrderSide.B -> bids
