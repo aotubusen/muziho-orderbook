@@ -15,7 +15,7 @@ class OrderBook {
 
         if(offerPool.find {it->  it.id == order.id }!=null || bidPool.find {it->  it.id == order.id }!=null )
             throw Exception("Duplicate ID ${order.id}")
-        
+
         val orders = when(order.side){
             OrderSide.O -> offers
             OrderSide.B -> bids
@@ -27,6 +27,16 @@ class OrderBook {
     }
 
     fun removeOrder(orderId:Long){
+
+        val offerPool = getOrders(OrderSide.O)
+        val bidPool = getOrders(OrderSide.B)
+
+        offerPool.find {it->  it.id == orderId }?.let {
+            offers[it.price]?.remove(orderId)
+        }
+        bidPool.find {it->  it.id == orderId }?.let {
+            bids[it.price]?.remove(orderId)
+        }
     }
 
     fun modifyOrder(orderId:Long, size:Long):Order?{
