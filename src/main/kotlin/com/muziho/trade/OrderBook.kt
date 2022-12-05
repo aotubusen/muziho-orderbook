@@ -67,9 +67,16 @@ class OrderBook {
         return orders.values.flatMap { it.values}
     }
 
-
     fun getPrice(side: OrderSide, level:Int): Double{
-        return 0.0
+        return when(side){
+            OrderSide.O -> getPrice(offers.keys.sorted(),level)
+            OrderSide.B -> getPrice(bids.keys.sortedDescending(),level)
+        }
+    }
+
+    private fun getPrice(prices: List<Double>, level: Int): Double {
+        if(level>prices.size) return 0.0
+        return prices[level - 1]
     }
 
     fun getTotalSize(side: OrderSide, level:Int) : Long{
