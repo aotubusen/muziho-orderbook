@@ -111,14 +111,7 @@ class OrderBookTest{
     @Test
     fun testGetPrice() {
         val orderBook = OrderBook()
-        orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
-        orderBook.addOrder(Order(3,101.00, OrderSide.O,4))
-        orderBook.addOrder(Order(4,102.00, OrderSide.O,6))
-        orderBook.addOrder(Order(2,100.00, OrderSide.O,3))
-        orderBook.addOrder(Order(5, 99.00, OrderSide.B,3))
-        orderBook.addOrder(Order(7, 98.00, OrderSide.B,2))
-        orderBook.addOrder(Order(6, 98.00, OrderSide.B,4))
-        orderBook.addOrder(Order(8, 97.00, OrderSide.B,5))
+        buildOrders(orderBook)
 
         var size = orderBook.getPrice(OrderSide.O, 1)
         assertEquals(100.0, size, 0.0)
@@ -135,19 +128,37 @@ class OrderBookTest{
         assertEquals(97.0, size, 0.0)
     }
 
+    @Test
+    fun testGetPriceWhereLevelDoesNotExist() {
+        val orderBook = OrderBook()
+        buildOrders(orderBook)
+
+        var size = orderBook.getPrice(OrderSide.O, 1)
+        assertEquals(100.0, size, 0.0)
+        size = orderBook.getPrice(OrderSide.O, 2)
+        assertEquals(101.0, size, 0.0)
+
+        // level does exist
+        size = orderBook.getPrice(OrderSide.O, 4)
+        assertEquals(0.0, size, 0.0)
+
+        size = orderBook.getPrice(OrderSide.B, 1)
+        assertEquals(99.0, size, 0.0)
+        size = orderBook.getPrice(OrderSide.B, 2)
+        assertEquals(98.0, size, 0.0)
+        size = orderBook.getPrice(OrderSide.B, 3)
+        assertEquals(97.0, size, 0.0)
+        // level does exist
+        size = orderBook.getPrice(OrderSide.B, 6)
+        assertEquals(0.0, size, 0.0)
+    }
+
 
     @Test
     fun testGetTotalSize() {
 
         val orderBook = OrderBook()
-        orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
-        orderBook.addOrder(Order(3,101.00, OrderSide.O,4))
-        orderBook.addOrder(Order(4,102.00, OrderSide.O,6))
-        orderBook.addOrder(Order(2,100.00, OrderSide.O,3))
-        orderBook.addOrder(Order(5, 99.00, OrderSide.B,3))
-        orderBook.addOrder(Order(7, 98.00, OrderSide.B,2))
-        orderBook.addOrder(Order(6, 98.00, OrderSide.B,4))
-        orderBook.addOrder(Order(8, 97.00, OrderSide.B,5))
+        buildOrders(orderBook)
 
         var size = orderBook.getTotalSize(OrderSide.O, 1)
         assertEquals(5, size)
@@ -171,13 +182,19 @@ class OrderBookTest{
         val orderBook = OrderBook()
         assertEquals(0,orderBook.getOrders(OrderSide.O).size)
         assertEquals(0,orderBook.getOrders(OrderSide.B).size)
+        buildOrders(orderBook)
+        assertEquals(4,orderBook.getOrders(OrderSide.O).size)
+        assertEquals(4,orderBook.getOrders(OrderSide.B).size)
+    }
+
+    private fun buildOrders(orderBook :OrderBook){
         orderBook.addOrder(Order(1,100.00, OrderSide.O,2))
+        orderBook.addOrder(Order(3,101.00, OrderSide.O,4))
         orderBook.addOrder(Order(4,102.00, OrderSide.O,6))
         orderBook.addOrder(Order(2,100.00, OrderSide.O,3))
         orderBook.addOrder(Order(5, 99.00, OrderSide.B,3))
         orderBook.addOrder(Order(7, 98.00, OrderSide.B,2))
         orderBook.addOrder(Order(6, 98.00, OrderSide.B,4))
-        assertEquals(3,orderBook.getOrders(OrderSide.O).size)
-        assertEquals(3,orderBook.getOrders(OrderSide.B).size)
+        orderBook.addOrder(Order(8, 97.00, OrderSide.B,5))
     }
 }
