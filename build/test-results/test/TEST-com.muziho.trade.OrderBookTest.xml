@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.muziho.trade.OrderBookTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2022-12-05T18:20:01" hostname="NIKE-HP" time="0.226">
+  <properties/>
+  <testcase name="testGetPrice" classname="com.muziho.trade.OrderBookTest" time="0.101"/>
+  <testcase name="testGetPriceWhereLevelDoesNotExist" classname="com.muziho.trade.OrderBookTest" time="0.001"/>
+  <testcase name="testGetOrdersInTheRightCreatedOrder" classname="com.muziho.trade.OrderBookTest" time="0.013"/>
+  <testcase name="testModifyOfferOrder" classname="com.muziho.trade.OrderBookTest" time="0.0"/>
+  <testcase name="testRemoveMoreThanOnceOrder" classname="com.muziho.trade.OrderBookTest" time="0.0"/>
+  <testcase name="testRemoveOrder" classname="com.muziho.trade.OrderBookTest" time="0.003"/>
+  <testcase name="testAddOfferAndBidOrders" classname="com.muziho.trade.OrderBookTest" time="0.001"/>
+  <testcase name="testAddOrder" classname="com.muziho.trade.OrderBookTest" time="0.0"/>
+  <testcase name="testModifyBidOrder" classname="com.muziho.trade.OrderBookTest" time="0.001"/>
+  <testcase name="testCannotAddDuplicateOrderId" classname="com.muziho.trade.OrderBookTest" time="0.093"/>
+  <testcase name="testGetTotalSize" classname="com.muziho.trade.OrderBookTest" time="0.002"/>
+  <testcase name="testGetOrders" classname="com.muziho.trade.OrderBookTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
